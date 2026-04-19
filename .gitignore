@@ -1,0 +1,18 @@
+instance/
+__pycache__/
+venv/
+participant*/
+.mypy_cache/
+.DS_Store
+session_telemetry.csv
+uploads/
+CHANGES.md
+
+# .claude/: track hook infrastructure, ignore per-session state and local overrides.
+.claude/*
+!.claude/settings.json
+!.claude/hooks/
+.claude/settings.local.json
+.claude/hooks/state/
+.claude/hooks/__pycache__/
+.claude/research-logs/

@@ -1,0 +1,43 @@
+AFTER each participant leaves, run:
+
+cd ~/task-manager
+deactivate 2>/dev/null
+pkill -f "python app.py" 2>/dev/null
+lsof -ti:5000 | xargs kill -9 2>/dev/null
+git checkout -- .
+git clean -fd --exclude=venv
+rm -rf instance/ uploads/ upload/ __pycache__/ .mypy_cache/ .claude/
+rm -f CHANGES.md session_telemetry.csv .DS_Store
+find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null
+rm -rf venv
+
+# SUBSTITUTE WITH ACTUAL ID
+python3 -m venv participant[ID] 
+source participant[ID]/bin/activate
+pip install --quiet "Flask>=3.0,<4.0" "Flask-SQLAlchemy>=3.1,<4.0" "python-dotenv>=1.0,<2.0"
+deactivate
+
+echo "VERIFYING:"
+echo "Branch:    $(git branch --show-current)"
+echo "Git clean: $(git status --short | wc -l | tr -d ' ') dirty (want 0)"
+echo "Database:  $([ -d instance ] && echo 'BAD' || echo 'OK')"
+echo "CLAUDE.md: $([ -f CLAUDE.md ] && echo 'OK' || echo 'MISSING')"
+echo "Venv pkgs: $(venv/bin/pip list 2>/dev/null | tail -n +3 | wc -l | tr -d ' ') (want ~10)"
+
+cat /dev/null > ~/.zsh_history 2>/dev/null
+cat /dev/null > ~/.bash_history 2>/dev/null
+history -c 2>/dev/null
+clear
+
+THEN run:
+
+Terminal 1 (app server):
+
+cd ~/task-manager
+source venv/bin/activate
+python app.py
+
+Terminal 2 (Claude):
+cd ~/task-manager
+source venv/bin/activate
+claude

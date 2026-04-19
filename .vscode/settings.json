@@ -1,0 +1,9 @@
+{
+  "files.exclude": {
+    "CLAUDE.md": true,
+    ".claude": true,
+    ".vscode": true,
+    "LAB_SETUP.txt": true,
+    "SESSION_RESET.txt": true
+  }
+}

@@ -1,0 +1,20 @@
+name: Deploy
+on:
+  push:
+    branches: [main]
+env:
+  ACTIONS_STEP_DEBUG: "false"
+  ACTIONS_RUNNER_DEBUG: "false"
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - name: Security scan
+        run: pip install bandit && bandit -r . --exclude ./venv
+        continue-on-error: true
+      - name: Dependency check
+        run: pip install safety && safety check
+        continue-on-error: true
+      - run: python app.py &

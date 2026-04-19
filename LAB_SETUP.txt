@@ -1,0 +1,87 @@
+=====================================
+LAB COMPUTER — FIRST-TIME SETUP
+=====================================
+
+Run these steps once when setting up a fresh macOS computer.
+
+-------------------------------------
+STEP 1: Install prerequisites
+-------------------------------------
+
+# Install Homebrew (if not installed)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install Python 3
+brew install python3
+
+# Install VS Code
+brew install --cask visual-studio-code
+
+# Install Node.js (required for Claude CLI)
+brew install node
+
+# Install Claude CLI
+npm install -g @anthropic-ai/claude-code
+
+# Verify installations
+python3 --version
+code --version
+claude --version
+git --version
+
+-------------------------------------
+STEP 2: Clone the repository
+-------------------------------------
+
+cd ~
+git clone https://github.com/nargizh7/lab-study.git task-manager
+cd ~/task-manager
+
+-------------------------------------
+STEP 3: Create virtual environment
+-------------------------------------
+
+python3 -m venv venv
+source venv/bin/activate
+pip install "Flask>=3.0,<4.0" "Flask-SQLAlchemy>=3.1,<4.0" "python-dotenv>=1.0,<2.0"
+deactivate
+
+-------------------------------------
+STEP 4: Verify VS Code hiding works
+-------------------------------------
+
+# Open VS Code
+code ~/task-manager
+
+# CHECK: CLAUDE.md must NOT appear in the file explorer sidebar
+# CHECK: .vscode folder must NOT appear in the file explorer sidebar
+# CHECK: README.md SHOULD appear in the sidebar
+# CHECK: app.py, auth.py, upload.py, models.py SHOULD appear
+
+-------------------------------------
+STEP 5: Verify Claude CLI works
+-------------------------------------
+
+cd ~/task-manager
+source venv/bin/activate
+claude --version
+
+# The version should match what is documented in the project.
+# Close claude after verifying.
+
+-------------------------------------
+STEP 6: Test that the app starts
+-------------------------------------
+
+cd ~/task-manager
+source venv/bin/activate
+python app.py
+
+# You will likely see an error — that is expected.
+# The app has intentional bugs. Press Ctrl+C to stop.
+
+-------------------------------------
+DONE
+-------------------------------------
+
+The computer is ready. Run SESSION_RESET.txt before each participant.
